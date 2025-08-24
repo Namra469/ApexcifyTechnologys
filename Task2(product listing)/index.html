@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookStore - Discover Your Next Great Read</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <i class="fas fa-book-open"></i>
+                    <span>BookStore</span>
+                </div>
+                <div class="nav-menu">
+                    <ul class="nav-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#books">Books</a></li>
+                        <li><a href="#categories">Categories</a></li>
+                        <li><a href="#about">About</a></li>
+                    </ul>
+                    <div class="nav-actions">
+                        <button class="theme-toggle" id="themeToggle">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                        <button class="cart-btn" id="cartBtn">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count" id="cartCount">0</span>
+                        </button>
+                        <button class="wishlist-btn" id="wishlistBtn">
+                            <i class="fas fa-heart"></i>
+                            <span class="wishlist-count" id="wishlistCount">0</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1 class="hero-title">Discover Your Next Great Read</h1>
+            <p class="hero-subtitle">Explore thousands of books across multiple categories with instant downloads</p>
+            <button class="cta-btn" onclick="document.getElementById('books').scrollIntoView({behavior: 'smooth'})">
+                Browse Books
+            </button>
+        </div>
+        <div class="hero-animation">
+            <div class="floating-book book1">📚</div>
+            <div class="floating-book book2">📖</div>
+            <div class="floating-book book3">📕</div>
+        </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="filter-section" id="books">
+        <div class="container">
+            <h2 class="section-title">Our Book Collection</h2>
+            
+            <div class="filter-bar">
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search by title or author...">
+                </div>
+                
+                <div class="filter-controls">
+                    <select id="categoryFilter">
+                        <option value="">All Categories</option>
+                        <option value="Programming">Programming</option>
+                        <option value="Novels">Novels</option>
+                        <option value="Self-Help">Self-Help</option>
+                        <option value="Science">Science</option>
+                    </select>
+                    
+                    <div class="price-filter">
+                        <input type="number" id="minPrice" placeholder="Min $">
+                        <input type="number" id="maxPrice" placeholder="Max $">
+                    </div>
+                    
+                    <select id="sortBy">
+                        <option value="title">Sort by Title</option>
+                        <option value="author">Sort by Author</option>
+                        <option value="price">Sort by Price</option>
+                        <option value="rating">Sort by Rating</option>
+                    </select>
+                </div>
+                
+                <div class="view-controls">
+                    <button class="view-btn active" id="gridViewBtn" data-view="grid">
+                        <i class="fas fa-th"></i>
+                    </button>
+                    <button class="view-btn" id="listViewBtn" data-view="list">
+                        <i class="fas fa-list"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Books Section -->
+    <section class="books-section">
+        <div class="container">
+            <div class="books-grid" id="booksGrid">
+                <!-- Books will be dynamically loaded here -->
+            </div>
+            
+            <div class="pagination-container">
+                <button class="pagination-btn" id="prevBtn" disabled>
+                    <i class="fas fa-chevron-left"></i> Previous
+                </button>
+                
+                <div class="pagination-info">
+                    <span id="pageInfo">Page 1 of 1</span>
+                </div>
+                
+                <button class="pagination-btn" id="nextBtn" disabled>
+                    Next <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Book Detail Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content" id="modalContent">
+            <button class="modal-close" id="modalClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-body">
+                <!-- Modal content will be dynamically loaded -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="modal-overlay" id="cartModal">
+        <div class="modal-content">
+            <button class="modal-close" id="cartModalClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-body">
+                <h2>Shopping Cart</h2>
+                <div id="cartItems">
+                    <!-- Cart items will be displayed here -->
+                </div>
+                <div class="cart-total">
+                    <strong>Total: $<span id="cartTotal">0.00</span></strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wishlist Modal -->
+    <div class="modal-overlay" id="wishlistModal">
+        <div class="modal-content">
+            <button class="modal-close" id="wishlistModalClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-body">
+                <h2>Wishlist</h2>
+                <div id="wishlistItems">
+                    <!-- Wishlist items will be displayed here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="container">
+            <h2 class="section-title">About BookStore</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Your Digital Library, Reimagined</h3>
+                    <p>BookStore is more than just an online bookstore – it's your gateway to endless knowledge and adventure. We've carefully curated a vast collection of digital books spanning multiple genres, from cutting-edge programming guides to timeless literary classics.</p>
+                    
+                    <h4>Why Choose BookStore?</h4>
+                    <ul class="features-list">
+                        <li><i class="fas fa-download"></i> Instant downloads in multiple formats (PDF, EPUB)</li>
+                        <li><i class="fas fa-search"></i> Advanced search and filtering capabilities</li>
+                        <li><i class="fas fa-heart"></i> Personal wishlist to save books for later</li>
+                        <li><i class="fas fa-moon"></i> Dark/Light mode for comfortable reading</li>
+                        <li><i class="fas fa-mobile-alt"></i> Fully responsive design for all devices</li>
+                        <li><i class="fas fa-star"></i> Curated collection of high-quality books</li>
+                    </ul>
+                    
+                    <p>Join thousands of readers who have discovered their next great read with BookStore. Whether you're a developer looking to enhance your skills, a literature enthusiast seeking classic novels, or someone on a journey of personal growth, we have something special waiting for you.</p>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-card">
+                        <div class="stat-number">24+</div>
+                        <div class="stat-label">Books Available</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">4</div>
+                        <div class="stat-label">Categories</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">2</div>
+                        <div class="stat-label">Formats</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Digital</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories-section" id="categories">
+        <div class="container">
+            <h2 class="section-title">Browse by Category</h2>
+            <div class="categories-grid">
+                <div class="category-card" onclick="filterByCategory('Programming')">
+                    <div class="category-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Programming</h3>
+                    <p>Master the art of coding with our comprehensive programming guides and technical books.</p>
+                    <div class="category-count">6 Books</div>
+                </div>
+                
+                <div class="category-card" onclick="filterByCategory('Novels')">
+                    <div class="category-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3>Novels</h3>
+                    <p>Immerse yourself in captivating stories and timeless literary classics.</p>
+                    <div class="category-count">6 Books</div>
+                </div>
+                
+                <div class="category-card" onclick="filterByCategory('Self-Help')">
+                    <div class="category-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>Self-Help</h3>
+                    <p>Transform your life with proven strategies for personal growth and success.</p>
+                    <div class="category-count">6 Books</div>
+                </div>
+                
+                <div class="category-card" onclick="filterByCategory('Science')">
+                    <div class="category-icon">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                    <h3>Science</h3>
+                    <p>Explore the wonders of the universe and scientific discoveries.</p>
+                    <div class="category-count">6 Books</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <h2 class="section-title">Get in Touch</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Contact Information</h3>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p>support@bookstore.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Phone</h4>
+                            <p>+1 (555) 123-4567</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h4>Support Hours</h4>
+                            <p>Mon-Fri: 9AM-6PM EST</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <form class="contact-form" id="contactForm">
+                    <h3>Send us a Message</h3>
+                    <div class="form-group">
+                        <label for="contactName">Your Name *</label>
+                        <input type="text" id="contactName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactEmail">Your Email *</label>
+                        <input type="email" id="contactEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactSubject">Subject *</label>
+                        <select id="contactSubject" required>
+                            <option value="">Select a subject</option>
+                            <option value="general">General Inquiry</option>
+                            <option value="support">Technical Support</option>
+                            <option value="billing">Billing Question</option>
+                            <option value="feedback">Feedback</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactMessage">Message *</label>
+                        <textarea id="contactMessage" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="footer-brand">
+                    <i class="fas fa-book-open"></i>
+                    <span>BookStore</span>
+                </div>
+                <p>Your gateway to knowledge and adventure through books.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#books">Books</a></li>
+                    <li><a href="#categories">Categories</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Categories</h4>
+                <ul>
+                    <li><a href="#" onclick="filterByCategory('Programming')">Programming</a></li>
+                    <li><a href="#" onclick="filterByCategory('Novels')">Novels</a></li>
+                    <li><a href="#" onclick="filterByCategory('Self-Help')">Self-Help</a></li>
+                    <li><a href="#" onclick="filterByCategory('Science')">Science</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#contact">Contact Us</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="footer-wave">
+                <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+                    <path d="M0,50 C150,100 350,0 600,50 C850,100 1050,0 1200,50 L1200,120 L0,120 Z"></path>
+                </svg>
+            </div>
+            <p>&copy; 2025 BookStore. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
